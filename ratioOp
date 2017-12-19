@@ -1,0 +1,18 @@
+import json, operator, re
+
+with open('AllSets.json', encoding='latin-1') as json_data:
+    all_sets = json.load(json_data)
+    for set_code in all_sets:
+        full_date = all_sets[set_code]['releaseDate']
+        p = re.compile('([0-9]{4})')
+        date = p.findall(full_date)
+        name = all_sets[set_code]['name'].splitlines()
+        for a_card in all_sets[set_code]['cards']:
+            if 'power' in a_card:
+                 cmcFloat = float(a_card['cmc'])
+                 if '*' in a_card['power']:
+                    print(name, date,'*','/', cmcFloat)    
+                 else:
+                    powerFloat = float(a_card['power'])
+                    ratio = powerFloat / cmcFloat
+                    print(name, date, ratio)
